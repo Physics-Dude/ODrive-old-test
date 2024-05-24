@@ -175,8 +175,19 @@ bool Controller::update(float* torque_setpoint_output) {
         } break;
         case INPUT_MODE_MIRROR: {
             if (config_.axis_to_mirror < AXIS_COUNT) {
-                pos_setpoint_ = axes[config_.axis_to_mirror].encoder_.pos_estimate_ * config_.mirror_ratio;
-                vel_setpoint_ = axes[config_.axis_to_mirror].encoder_.vel_estimate_ * config_.mirror_ratio;
+                std::optional<float> other_pos = axes[config_.axis_to_mirror].encoder_.pos_estimate_.present();
+                std::optional<float> other_vel = axes[config_.axis_to_mirror].encoder_.vel_estimate_.present();
+                std::optional<float> other_torque = axes[config_.axis_to_mirror].controller_.torque_output_.present();
+
+                if (!other_pos.has_value() || !other_vel.has_value() || !other_torque.has_value()) {
+                    set_error(ERROR_INVALID_ESTIMATE);
+                    return false;
+                }
+
+                pos_setpoint_ = *other_pos * config_.mirror_ratio;
+                vel_setpoint_ = *other_vel * config_.mirror_ratio;
+                torque_setpoint_ = *other_torque * config_.torque_mirror_ratio;
+                
             } else {
                 set_error(ERROR_INVALID_MIRROR_AXIS);
                 return false;
