@@ -83,7 +83,7 @@ void loop() {
     // go
     if (c == 'g') {
       odrive_serial << "w axis0.controller.input_vel 2\n";
-      Serial << "going?\n';
+      Serial << "going?\n";
     }
 
     // print motor positions in a 10s loop
