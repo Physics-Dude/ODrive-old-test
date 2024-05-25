@@ -82,7 +82,7 @@ void loop() {
     }
     // go
     if (c == 'g') {
-      odrive_serial << "w .axis0.controller.input_vel 2\n";
+      odrive_serial << "w axis0.controller.input_vel 2\n";
       Serial << "going?\n';
     }
 
