@@ -94,4 +94,54 @@ void loop() {
       }
     }
   }
+  else{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    //this part will loop forever if usb is not connected
+    //reads 2 pots. one on A0 and one on A1
+    //power is in amps i think
+    
+    float mySpeedPot = map(analogRead(0),0,1023,0,2000.0);
+    float myPowerPot = map(analogRead(1),0,1023,0,11.0);
+    odrive.SetVelocity(0, mySpeedPot, myPowerPot); 
+    odrive.SetVelocity(1, -mySpeedPot, myPowerPot); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  }
+
+  
 }
