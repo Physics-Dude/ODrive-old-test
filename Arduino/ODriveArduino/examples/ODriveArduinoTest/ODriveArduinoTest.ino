@@ -1,6 +1,6 @@
 
 #include <SoftwareSerial.h>
-#include <ODriveArduino.h>
+#include "ODriveArduino.h"
 
 // Printing with stream operator
 template<class T> inline Print& operator <<(Print &obj,     T arg) { obj.print(arg);    return obj; }
@@ -19,7 +19,7 @@ void setup() {
 
   // Serial to PC
   Serial.begin(115200);
-  while (!Serial) ; // wait for Arduino Serial Monitor to open
+  //while (!Serial) ; // wait for Arduino Serial Monitor to open
 
   Serial.println("ODriveArduino");
   Serial.println("Setting parameters...");
@@ -79,6 +79,11 @@ void loop() {
     if (c == 'b') {
       odrive_serial << "r vbus_voltage\n";
       Serial << "Vbus voltage: " << odrive.readFloat() << '\n';
+    }
+    // go
+    if (c == 'g') {
+      odrive_serial << "w .axis0.controller.input_vel 2\n";
+      Serial << "going?\n';
     }
 
     // print motor positions in a 10s loop
